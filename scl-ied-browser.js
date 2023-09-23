@@ -8460,6 +8460,8 @@ function subDataAttributeObject(bda) {
             children[bdaName] = subDataAttributeObject(childBda);
         else if (bda.getAttribute('bType') === 'Enum')
             children[bdaName] = enumTypeObject(childBda);
+        else
+            children[bdaName] = {};
     });
     tree.children = children;
     return tree;
@@ -8477,6 +8479,8 @@ function dataAttributeObject(da) {
             children[bdaName] = subDataAttributeObject(bda);
         else if (bda.getAttribute('bType') === 'Enum')
             children[bdaName] = enumTypeObject(bda);
+        else
+            children[bdaName] = {};
     });
     tree.children = children;
     return tree;
@@ -8501,6 +8505,8 @@ function subDataObjectsObject(sdo) {
             else if (sDoOrDa.getAttribute('bType') === 'Enum') {
                 children[daName] = enumTypeObject(sDoOrDa);
             }
+            else
+                children[daName] = {};
         }
     });
     tree.children = children;
@@ -8526,6 +8532,8 @@ function dataObjectObject(dO) {
             else if (sDoOrDa.getAttribute('bType') === 'Enum') {
                 children[daName] = enumTypeObject(sDoOrDa);
             }
+            else
+                children[daName] = {};
         }
     });
     tree.children = children;
@@ -8597,13 +8605,10 @@ class SclIedBrwoserPlugin extends s$2 {
     }
     async selectIed(e) {
         var _a;
-        const oldFilter = this.tree.filter;
         const selectedIedName = (_a = e.target.selected) === null || _a === void 0 ? void 0 : _a.value;
         this.selectedIed = this.doc.querySelector(`:root > IED[name="${selectedIedName}"]`);
         await this.requestUpdate();
         this.tree.filter = '';
-        await this.tree.requestUpdate();
-        this.tree.filter = oldFilter;
         await this.tree.requestUpdate();
         await this.requestUpdate();
     }
@@ -8635,8 +8640,8 @@ class SclIedBrwoserPlugin extends s$2 {
     }
 }
 SclIedBrwoserPlugin.styles = i$5 `
-    .hidden {
-      display: none;
+    div {
+      padding: 10px;
     }
   `;
 __decorate([
